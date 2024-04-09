@@ -24,21 +24,27 @@ Virtual DSM in a Docker container.
 Via Docker Compose:
 
 ```yaml
-version: "3"
 services:
   dsm:
     container_name: dsm
     image: vdsm/virtual-dsm
     environment:
-      DISK_SIZE: "16G"
+      DISK_SIZE: 460G
+      DISK_FMT: qcow2
+      RAM_SIZE: 4G
+      CPU_CORES: 2
+      GPU: Y
     devices:
       - /dev/kvm
+      - /dev/dri
     cap_add:
       - NET_ADMIN
     ports:
       - 5000:5000
+      - 5001:5001
+      - 5022:22
     volumes:
-      - /var/dsm:/storage
+      - /mnt/usb1_2_3-1/dsm:/storage
     restart: on-failure
     stop_grace_period: 2m
 ```
